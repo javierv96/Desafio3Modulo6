@@ -13,7 +13,7 @@ app.use(express.json());
 // Se crea el arreglo que almacenera como Objeto cada usuario
 const usuario = [];
 // Se asigna a la variable today la fecha y hora actual como variable global
-const today = moment().format('DD-MM-YYYY HH:mm:ss');
+const today = moment().format('MMMM Do YYYY, h:mm:ss a');
 
 app.get('/randomuser', async (req, res) => {
     try {
@@ -28,7 +28,7 @@ app.get('/randomuser', async (req, res) => {
         const nombreFrag = [userData[0].name.first, userData[0].name.last];
         const nombreCompleto = nombreFrag.join(" ");
         // Se genera un UUID para el usuario utilizando los 8 primeros caracteres
-        const newUuid = uuid.v4().slice(0, 8);
+        const newUuid = uuid.v4().slice(0, 6);
         // Se agregan como objeto los valores capturados al arreglo por cada usuario y incluyendo la fecha actual definida como variable global
         usuario.push({ nombreCompleto, Genero, today, newUuid })
         // Se separa por genero en un arreglo nuevo utilizando lodash
@@ -37,14 +37,14 @@ app.get('/randomuser', async (req, res) => {
         res.json(byGenero);
 
         console.log("-------------------------------------- Separador de Consultas --------------------------------------");
-        console.log("Usuarios Hombres: ");
+        console.log("Hombres: ");
         for (let i = 0; i < byGenero[0].length; i++){
-            const persona = chalk.yellow("Nombre: ")+byGenero[0][i].nombreCompleto+chalk.yellow(" Genero: ")+byGenero[0][i].Genero+chalk.yellow(" Hora Registro: ")+byGenero[0][i].today+chalk.yellow(" UUID: ")+byGenero[0][i].newUuid;
+            const persona = chalk.yellow("Nombre: ")+byGenero[0][i].nombreCompleto+chalk.yellow(" ID: ")+byGenero[0][i].newUuid+chalk.yellow(" Timestamp: ")+byGenero[0][i].today;
             console.log(chalk.bgWhite.blue(persona));
         }
-        console.log("Usuarios Mujeres: ");
+        console.log("Mujeres: ");
         for (let i = 0; i < byGenero[1].length; i++){
-            const persona = chalk.yellow("Nombre: ")+byGenero[1][i].nombreCompleto+chalk.yellow(" Genero: ")+byGenero[1][i].Genero+chalk.yellow(" Hora Registro: ")+byGenero[1][i].today+chalk.yellow(" UUID: ")+byGenero[1][i].newUuid;
+            const persona = chalk.yellow("Nombre: ")+byGenero[1][i].nombreCompleto+chalk.yellow(" ID: ")+byGenero[1][i].newUuid+chalk.yellow(" Timestamp: ")+byGenero[1][i].today;
             console.log(chalk.bgWhite.blue(persona));
         }
 
